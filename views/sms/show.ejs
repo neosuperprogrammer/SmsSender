@@ -1,0 +1,43 @@
+<% include ../partials/header %>
+
+<link rel="stylesheet" type="text/css" href="../../public/css/bootstrap.css">
+
+<style>
+    .jumbotron {
+    <% if (sms.status == 0) { %>
+        <% } else if (sms.status == 1) {%>
+        color: #31708f;
+        background-color: #d9edf7;
+     <% } else { %>
+        color: #a94442;
+        background-color: #f2dede;
+    <% } %>
+    }
+</style>
+
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <div>
+                <h1><i class="fa fa-file-text-o" aria-hidden="true"></i> <%= sms.name %></h1>
+                <p>
+                    <%= sms.phonenumber %>
+                </p>
+                <p>
+                    <a class="pull-left" href="/jobs/<%= job_id %>">Go Back</a>
+                    <form  class="pull-right" style="display: inline-block" action="/jobs/<%= job_id %>/smslist/<%= sms._id %>?_method=PUT" method="POST">
+                        <input type="text" name="status" value="fail" style="display: none;">
+                        <button class="btn btn-xs btn-danger">fail</button>
+                    </form>
+                    <form class="pull-right" style="display: inline-block; margin-right: 10px" action="/jobs/<%= job_id %>/smslist/<%= sms._id %>?_method=PUT" method="POST">
+                        <input type="text" name="status" value="success" style="display: none;">
+                        <button class="btn btn-xs btn-primary">success</button>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </header>
+</div>
+
+<% include ../partials/footer %>

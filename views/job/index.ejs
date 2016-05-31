@@ -1,0 +1,94 @@
+<% include ../partials/header %>
+
+<link rel="stylesheet" type="text/css" href="../../public/css/bootstrap.css">
+
+<style>
+    /*div.row ul {*/
+        /*background: white;*/
+    /*}*/
+    /*div.row ul li:nth-child(2n) {*/
+        /*background: #dff0d8;*/
+    /*}*/
+</style>
+
+<script>
+    $("document").ready(function() {
+        $("li.page").click(function(ev) {
+            var page = $(this).find("a").html();
+            $("li.page").removeClass("active");
+            $(this).addClass("active");
+//            ev.preventDefault();
+//            ev.stopPropagation();
+        });
+    });
+</script>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <div>
+                <h1><i class="fa fa-file-text-o" aria-hidden="true"></i> Welcome To Sms Sender</h1>
+                <p>send massive sms via android device</p>
+                <a class="btn btn-primary btn-lg" href="/jobs/new">Create New</a>
+            </div>
+        </div>
+    </header>
+
+    <%
+//        console.log("total job count : " + totalJobCount);
+        var totalPage = parseInt(totalJobCount / itemPerPage + (totalJobCount % itemPerPage > 0 ? 1 : 0));
+//        console.log("total page : " + totalPage);
+    %>
+    <nav style="text-align: center">
+        <ul class="pagination">
+            <!--<li class="disabled">-->
+            <!--<a href="#" aria-label="Previous">-->
+            <!--<span aria-hidden="true">&laquo;</span>-->
+            <!--</a>-->
+            <!--</li>-->
+            <% for (var i = 0; i < totalPage; i++) { %>
+
+            <%
+                var active = "";
+                if (currentPage == i + 1) {
+                    active = "active";
+                }
+            %>
+
+            <li class="page <%= active %>"><a href="/jobs/page/<%= i + 1 %>"><%= i + 1 %></a></li>
+            <% } %>
+            <!--<li>-->
+            <!--<a href="#" aria-label="Next">-->
+            <!--<span aria-hidden="true">&raquo;</span>-->
+            <!--</a>-->
+            <!--</li>-->
+        </ul>
+    </nav>
+
+    <ul class="list-group">
+        <% var index = 0; jobs.forEach(function(job){ %>
+        <li class="list-group-item">
+            <a href="/jobs/<%= job._id %>">
+                <div>
+                    <%= index + 1 %> )
+                    <%= job.name %>
+                    <span class="badge"><%= job.description %></span>
+                            <span style="float: right">
+                                <form action="/jobs/<%= job._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-primary">DELETE</button>
+                                </form>
+                            </span>
+                </div>
+            </a>
+        </li>
+        <% index++ }); %>
+    </ul>
+
+    <div class="container" style="margin-bottom: 20px">
+
+    </div>
+
+</div>
+
+
+<% include ../partials/footer %>

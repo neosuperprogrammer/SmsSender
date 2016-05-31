@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+
+<!--<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.css">-->
+
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center">Edit <%= job.name %></h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/jobs/<%= job._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label>Job Name</label>
+                    <input class="form-control" type="text" name="job[name]" value="<%= job.name %>">
+                </div>
+                <div class="form-group">
+                    <label>Sms To Send</label>
+                    <textarea class="form-control" name="job[description]"><%= job.description %></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control btn btn-primary" type="submit">
+                </div>
+            </form>
+            <a href="/jobs">Go Back</a>
+        </div>
+    </div>
+
+</div>
+
+<% include ../partials/footer %>

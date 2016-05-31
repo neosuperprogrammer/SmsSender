@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+
+<!--<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.css">-->
+
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center">Create New Job</h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/jobs" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Job Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="Job">
+                </div>
+                <div class="form-group">
+                    <label>Sms To Send</label>
+                    <textarea class="form-control" name="description" placeholder="Sms"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>PhoneNumber File To Send Sms</label>
+                    <a class="btn btn-xs btn-info" href="/assets/sms.xlsx">sample file download</a>
+                    <input class="form-control" type="file" name="file" placeholder="file">
+                </div>
+                <div class="form-group">
+                    <input class="form-control btn btn-primary" type="submit">
+                </div>
+            </form>
+            <a href="/jobs">Go Back</a>
+        </div>
+    </div>
+
+</div>
+
+<% include ../partials/footer %>

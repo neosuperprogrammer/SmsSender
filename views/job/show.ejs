@@ -1,0 +1,107 @@
+<% include ../partials/header %>
+
+<!--<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.css">-->
+<script>
+    $("document").ready(function() {
+        $("li.page").click(function(ev) {
+            var page = $(this).find("a").html();
+            $("li.page").removeClass("active");
+            $(this).addClass("active");
+//            ev.preventDefault();
+//            ev.stopPropagation();
+        });
+    });
+</script>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <div>
+                <h1><i class="fa fa-file-text-o" aria-hidden="true"></i> <%= job.name %></h1>
+                <div class="well">
+                    <%- job.description.replace("\r", "<br />") %>
+                </div>
+                <p>Create Date : <%= job.created.toDateString() %></p>
+                <p style="display: inline-block;margin-right: 20px"><a href="/jobs">Go Back</a></p>
+                <span style="float: right">
+                    <a class="btn btn-xs btn-primary" style="display: inline-block" href="/jobs/<%= job._id %>/edit">
+                      EDIT
+                    </a>
+                    <form style="display: inline-block" action="/jobs/<%= job._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">DELETE</button>
+                    </form>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <%
+//        var itemPerPage = 10;
+        var totalSmsCount = job.smslist.length;
+        var totalPage = parseInt(totalSmsCount / itemPerPage + (totalSmsCount % itemPerPage > 0 ? 1 : 0));
+//        console.log("totalPage : " + totalPage);
+     %>
+    <nav style="text-align: center">
+        <ul class="pagination">
+            <!--<li class="disabled">-->
+                <!--<a href="#" aria-label="Previous">-->
+                    <!--<span aria-hidden="true">&laquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <% for (var i = 0; i < totalPage; i++) { %>
+
+            <%
+                var active = "";
+                if (currentPage == i + 1) {
+                    active = "active";
+                }
+            %>
+
+            <li class="page <%= active %>"><a href="/jobs/<%= job._id %>/page/<%= i + 1 %>"><%= i + 1 %></a></li>
+            <% } %>
+            <!--<li>-->
+                <!--<a href="#" aria-label="Next">-->
+                    <!--<span aria-hidden="true">&raquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        </ul>
+    </nav>
+
+    <ul class="list-group">
+        <%
+            var start = itemPerPage * (currentPage - 1);
+            var end = start + itemPerPage;
+            var subList = job.smslist.slice(start, end);
+         %>
+        <% var index = 0; subList.forEach(function(sms){ %>
+        <%
+            if (sms.status == 1) {
+                var status = "success";
+            } else if (sms.status == -1) {
+                var status = "fail";
+            }
+
+        %>
+        <li class="list-group-item
+                 <% if (sms.status == 0) { %>
+
+                 <% } else if (sms.status == 1) { %>
+                    list-group-item-info
+                 <% } else { %>
+                    list-group-item-danger
+                    <% } %>
+                ">
+            <a href="/jobs/<%= job._id %>/smslist/<%= sms._id %>">
+                <div>
+                    <%= start + index + 1 %> )
+                    <%= sms.name %>
+                    <span class="badge"><%= sms.phonenumber %></span>
+                    <span class="badge" style="float: right"><%= status %></span>
+                </div>
+            </a>
+        </li>
+        <% index++ }); %>
+    </ul>
+</div>
+
+<% include ../partials/footer %>
